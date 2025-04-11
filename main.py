@@ -1,6 +1,6 @@
 
 
-MAX_AGE = 99  # constant
+MAX_AGE = 100  # constant
 
 
 # - комментар
