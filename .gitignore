@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 .idea
 test.py
-
+creds.json
 
 __pycache__/
 *.py[cod]
