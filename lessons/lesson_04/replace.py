@@ -17,3 +17,11 @@ row = '1, two, 1, four'
 
 print(row.replace('1', 'one', 1).replace('1', 'three').replace('three', 'potato'))
 
+
+
+
+
+new_row = row.replace('1', 'one')
+print(new_row)
+print(row.replace('1', 'one'))
+
