@@ -1,6 +1,7 @@
+# from lessons.lesson_11.config_file_logger import my_logger
 from utils.test_functions import convert_to_24_hour
 import pytest
-import os
+import logging
 
 
 
@@ -19,9 +20,19 @@ import os
 @pytest.mark.time_converter
 @pytest.mark.parametrize('expected_result, input_param', [
     ('03:00', "3:00 AM"),  # 1 test
-    ('23:00', "11:00 PM")  # 2 test
+    ('23:00', "11:00 PM"),  # 2 test
+    ('23:00', "12:00 PM"),  # 3 test
+    ('20:00', "8:00 PM"),  # 2 test
+    ('09:00', "9:00 AM"),  # 2 test
 ])
 def test_time_converter(expected_result, input_param):
+    logging.info(f'Run test test_time_converter with {expected_result} and {input_param}')
     actual = convert_to_24_hour(input_param)
 
-    assert actual == expected_result
+    log_results(expected_result, actual)
+
+    assert expected_result == actual
+
+def log_results(exp, act):
+    if exp != act:
+        logging.error(f'{__name__}: Data is incorrect expected is {exp} but actual is {act}')

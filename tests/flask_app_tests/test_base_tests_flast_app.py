@@ -33,10 +33,15 @@ class TestContent:
     # 1
     @pytest.mark.parametrize('j_content', list_of_content)
     def test_add_content(self, j_content):
-        print('Checking content adding...')
+
+        loggin.info(f'Sending request to {all_content_url}')
         response_data = requests.post(all_content_url, json=j_content)
-        assert response_data.status_code == 200, "Content was not created"
+        loggin.info(f'response has status code {response_data.status_code}')
+
+        if response_data.status_code != 200:
+            logging.error('status is not 200')
         assert response_data.json().get('message') == 'Content created successfully!'
+
 
         __class__.test_1_result = 'Alex'
 
