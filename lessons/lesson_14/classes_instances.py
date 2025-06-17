@@ -28,15 +28,20 @@ class Samsung(Phone):
     pass
 
 
-i15 = IPhone('i15_number_123', 'life')
-# i12 = IPhone('i12_number_456', 'kyivstar', os_version='16.5')
+if __name__ == '__main':
+    i15 = IPhone('i15_number_123', 'life')
+    # i12 = IPhone('i12_number_456', 'kyivstar', os_version='16.5')
 
-i15.make_calls(number=123)  # Phone.make_calls(self=i15, number=123)
-print(i15.os_version)
+    i15.make_calls(number=123)  # Phone.make_calls(self=i15, number=123)
+    print(i15.os_version)
 
-# i12.make_calls(123)
+    # i12.make_calls(123)
 
 
+
+class Car:
+
+    is_real = 'Fake'
 
 
 

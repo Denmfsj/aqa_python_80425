@@ -25,16 +25,17 @@ class Honda(Car):
     brand = 'Honda'
 
 
-nissan_zd30 = Nissan('v4')
-nissan_td48 = Nissan('v8', number_of_wheels=8)
-# h_civic = Honda('v8')
+if __name__ == '__main__': # 'lessons.lesson_14.class_cars'
+    nissan_zd30 = Nissan('v4')
+    nissan_td48 = Nissan('v8', number_of_wheels=8)
+    # h_civic = Honda('v8')
 
-nissan_zd30.possible_engines.append('v10')
-print(Nissan.brand)
-print(Nissan.possible_models)
-print(Nissan.get_all_possible_models())
+    nissan_zd30.possible_engines.append('v10')
+    print(Nissan.brand)
+    print(Nissan.possible_models)
+    print(Nissan.get_all_possible_models())
 
-print(nissan_td48.get_all_possible_models())
+    print(nissan_td48.get_all_possible_models())
 
 # print(nissan_zd30.possible_engines)
 # print(nissan_td48.possible_engines)
