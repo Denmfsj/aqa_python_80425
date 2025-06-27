@@ -2,6 +2,7 @@
 import pytest
 import requests
 import time
+import xml
 
 
 
@@ -9,8 +10,15 @@ import time
 def test_get_users_by_id(user_id):
     response = requests.get(url='https://gorest.co.in/public/v2/users', params={'id': user_id})
 
-    assert response.status_code == 200, f'Status code is not 200, but {response.status_code}'
+    response_time = response.elapsed.total_seconds()
+    print(f'response_time is {response.elapsed.total_seconds()}')
 
+    if response.elapsed.total_seconds() > 1:  # умови, що відповідь сервера повинна бути менше 1 сеунди
+        raise AssertionError(f'Response time is too long. Expected less than 1 sec but actual is {response_time}')
+
+
+    ct_header = response.headers['Content-Type']
+    print(f'Content-Type is {ct_header}')
     resp_data = response.json()
 
     assert len(resp_data) == 1, f'Response should has 1 users, but has {len(resp_data)}'
@@ -23,9 +31,10 @@ def test_get_users_by_id(user_id):
 def test_get_users__by_name(user_name):
     response = requests.get(url='https://gorest.co.in/public/v2/users', params={'name': user_name})
 
+
     assert response.status_code == 200, f'Status code is not 200, but {response.status_code}'
 
-    resp_data = response.json()
+    resp_data = response.json()  # json.loads(response.text)
 
     for user in resp_data:
         assert user_name in user['name'], (f'{user_name} should be in name of user_id={user["id"]}, '
