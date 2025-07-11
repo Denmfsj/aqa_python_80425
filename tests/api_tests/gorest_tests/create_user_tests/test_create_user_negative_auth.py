@@ -1,26 +1,18 @@
-import pytest
-import requests
 
 
-
-def test_create_user_negative_auth_no_header():
-
-
-    response = requests.post(url='https://gorest.co.in/public/v2/users',
-                             body={'name': 'asd', 'email': 'asdasd'})
-
-    assert response.status_code == 401, (f'Response should have status code 401, '
-                                         f'but it has {response.status_code}')
+def test_create_user_negative_auth_no_header(gorest_ctrl):
 
 
-def test_create_user_negative_auth_wrong_auth_header():
+    gorest_ctrl.create_user(user_data={'name': 'asd', 'email': 'asdasd'},
+                       header={},
+                       expected_status_code=401)
 
 
-    response = requests.post(url='https://gorest.co.in/public/v2/users',
-                             body={'name': 'asd', 'email': 'asdasd'},
-                             headers={'Authoriztion': 'asdasd'})
+def test_create_user_negative_auth_wrong_auth_header(gorest_ctrl):
 
-    assert response.status_code == 403, (f'Response should have status code 403, '
-                                         f'but it has {response.status_code}')
+    gorest_ctrl.create_user(user_data={'name': 'asd', 'email': 'asdasd'},
+                       header={'Authorization': 'asdasd'},
+                       expected_status_code=401)
+
 
 

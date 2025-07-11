@@ -1,5 +1,7 @@
 import requests
 
+from curlify import to_curl
+
 class GorestEndpoint:
 
     base_url = 'https://gorest.co.in'
@@ -8,13 +10,13 @@ class GorestEndpoint:
     version1 =  f'/v1'
 
 
-    def get_users(self, expected_status_code=200):
-        response = requests.get(url=f'{self.get_path()}/users')
+    def get_users(self, params=None, expected_status_code=200):
 
-        # if response.status_code == 301:
-        #     assert response.headers['redirect_url'].startswith('your_domain.com')
-        #
-        # assert response.url.startswith('your_domain.com')
+        response = requests.get(url=f'{self.get_path()}/users', params=params)
+
+        print(to_curl(response.request))
+        print(f'Status code is {response.status_code}')
+
 
         assert response.status_code == expected_status_code, \
             f'Status code is not 200, but {response.status_code}'
@@ -23,23 +25,47 @@ class GorestEndpoint:
 
     def get_user(self, user_id, url_version=None, expected_status_code=200):
 
-        url = f'{self.get_path(url_version)}/users'
+        url = f'{self.get_path(url_version)}/users/{user_id}'
         print(f'Sending request to {url}')
 
-        response =  requests.get(url=f'{url}/users', params={'id': user_id})
+        response =  requests.get(url=url)
+        print(to_curl(response.request))
+        print(f'Status code is {response.status_code}')
 
         assert response.status_code == expected_status_code, \
             f'Status code is not 200, but {response.status_code}'
         return response
 
-    def create_user(self, user_data, expected_status_code=201):
-        response = requests.post(url=f'{self.get_path()}/users', json=user_data, headers={
-            "Authorization": "Bearer ea1cf6a5c93238bfcd0c086b790f2353ff4418d899c26f8b9e8906a190c1111e"})
+    def create_user(self, user_data, header=None, expected_status_code=201):
+
+        if header is None:
+            header={
+                "Authorization": "Bearer ea1cf6a5c93238bfcd0c086b790f2353ff4418d899c26f8b9e8906a190c1111e"
+            }
+
+        response = requests.post(url=f'{self.get_path()}/users', json=user_data, headers=header)
+        print(to_curl(response.request))
+        print(f'Status code is {response.status_code}')
 
         assert response.status_code == expected_status_code, \
-            f'Status code is not 201, but {response.status_code}'
+            f'Status code is not {expected_status_code}, but {response.status_code}'
         return response
 
+
+    def delete_user(self, user_id, header=None, expected_status_code=204):
+
+        if header is None:
+            header={
+                "Authorization": "Bearer ea1cf6a5c93238bfcd0c086b790f2353ff4418d899c26f8b9e8906a190c1111e"
+            }
+
+        response = requests.delete(url=f'{self.get_path()}/users/{user_id}', headers=header)
+        print(to_curl(response.request))
+        print(f'Status code is {response.status_code}')
+
+        assert response.status_code == expected_status_code, \
+            f'Status code is not {expected_status_code}, but {response.status_code}'
+        return response
 
 
 
