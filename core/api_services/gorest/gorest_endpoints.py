@@ -2,6 +2,9 @@ import requests
 
 from curlify import to_curl
 
+from core.api_services.gorest.schemas.user_schema import UserSchema
+
+
 class GorestEndpoint:
 
     base_url = 'https://gorest.co.in'
@@ -10,7 +13,7 @@ class GorestEndpoint:
     version1 =  f'/v1'
 
 
-    def get_users(self, params=None, expected_status_code=200):
+    def get_users(self, params=None, expected_status_code=200, validate_schema=True):
 
         response = requests.get(url=f'{self.get_path()}/users', params=params)
 
@@ -20,10 +23,14 @@ class GorestEndpoint:
 
         assert response.status_code == expected_status_code, \
             f'Status code is not 200, but {response.status_code}'
+
+        if validate_schema:
+            print('Validating schema')
+            UserSchema(many=True).load(response.json())
         return response
 
 
-    def get_user(self, user_id, url_version=None, expected_status_code=200):
+    def get_user(self, user_id, url_version=None, expected_status_code=200, validate_schema=True):
 
         url = f'{self.get_path(url_version)}/users/{user_id}'
         print(f'Sending request to {url}')
@@ -34,6 +41,9 @@ class GorestEndpoint:
 
         assert response.status_code == expected_status_code, \
             f'Status code is not 200, but {response.status_code}'
+        if validate_schema:
+            print('Validating schema')
+            UserSchema(many=True).load(response.json())
         return response
 
     def create_user(self, user_data, header=None, expected_status_code=201):

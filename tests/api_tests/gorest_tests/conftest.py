@@ -22,6 +22,13 @@ def session_user(gorest_ctrl):
     gorest_ctrl.delete_user(user_id=user.json()['id'])
 
 
+# function - default
+# class
+# module
+# package
+# session
+
 @pytest.fixture(scope='session')
 def gorest_ctrl():
+    print('Calling gorest ctrl')
     return GorestEndpoint()

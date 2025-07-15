@@ -56,7 +56,8 @@ class SQLiteActions(SQLiteConnector):
     name TEXT NOT NULL,
     created_date INTEGER NOT NULL,
     updated_date TEXT NOT NULL,
-    score NUMERIC NOT NULL
+    score NUMERIC NOT NULL,
+    score_name TEXT NOT NULL
 );
 """
 
@@ -68,8 +69,9 @@ class SQLiteActions(SQLiteConnector):
                 created_date = self.__get_created_date()
                 updated_date = self.__get_updated_date()
                 query = f"""
-                INSERT INTO student (name, score, created_date, updated_date)
-                VALUES ("{name}", {score}, "{created_date}", "{updated_date}")
+                INSERT INTO student (name, score, score_name, created_date, updated_date)
+                VALUES ("{name}", {score}, "{self._get_score_name(score)}", 
+                "{created_date}", "{updated_date}")
             """
                 c.execute(query)
             c.commit()
@@ -83,13 +85,15 @@ class SQLiteActions(SQLiteConnector):
         local_tz = pytz.timezone('Europe/Kyiv')
         return datetime.datetime.now(local_tz).strftime("%Y-%m-%dT%H:%M:%S%z")
 
-    def add_student(self, name, score):
+    def add_student(self, name, score, score_name=None):
         with SQLiteConnector(self.sqlite_path) as c:
             created_date = self.__get_created_date()
             updated_date = self.__get_updated_date()
+            if not score_name:
+                score_name = self._get_score_name(score)
             query = f"""
-                            INSERT INTO student (name, score, created_date, updated_date)
-                            VALUES ("{name}", {score}, "{created_date}", "{updated_date}")
+                            INSERT INTO student (name, score, score_name, created_date, updated_date)
+                            VALUES ("{name}", {score}, "{score_name}", "{created_date}", "{updated_date}")
                         """
             c.execute(query)
             c.commit()
@@ -98,10 +102,10 @@ class SQLiteActions(SQLiteConnector):
             last_id = c.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
             return c.execute(f"SELECT * FROM student WHERE id = {last_id}")[0]
 
-    def update_student(self, student_id, name=False, score=False):
+    def update_student(self, student_id, name=False, score=False, score_name=False):
 
-        if not name and not score:
-            raise ValueError('You have to put name and/or score of the student')
+        if not name and not score and not score_name:
+            raise ValueError('You have to put name and/or score and/or score_name of the student')
 
         updates = []
 
@@ -110,6 +114,9 @@ class SQLiteActions(SQLiteConnector):
 
         if score:
             updates.append(f'score = {score}')
+
+        if score_name:
+            updates.append(f'score_name = "{score_name}"')
 
         updates.append(f'updated_date = "{self.__get_updated_date()}"')
 
@@ -160,3 +167,13 @@ class SQLiteActions(SQLiteConnector):
 
         with SQLiteConnector(self.sqlite_path) as c:
             return c.execute(query)[0]
+
+
+    @staticmethod
+    def _get_score_name(score):
+        if score < 50:
+            return 'BAD'
+        elif score < 90:
+            return 'GOOD'
+        else:
+            return 'GREAT'

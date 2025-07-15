@@ -96,15 +96,17 @@ def update_students(student_id):
 
     name = request_data.get('name')
     score = request_data.get('score')
+    score_name = request_data.get('score_name')
 
     student = db.get_student(student_id)
 
-    if not name and not score:
-        return jsonify({'message': 'You have to put name and/or score of the student'}), 400
+    if not name and not score and not score_name:
+        return jsonify({'message': 'You have to put name and/or score and/or score_name of the student'}), 400
 
     name = name if name is not None else student['name']
     score = score if score is not None else student['score']
-    student = db.update_student(student_id=student_id, name=name, score=score)
+    score_name = score_name if score_name is not None else student['score_name']
+    student = db.update_student(student_id=student_id, name=name, score=score, score_name=score_name)
     return jsonify(student), 200
 
 
@@ -129,7 +131,7 @@ def check_auth(headers):
 
 
 if __name__ == '__main__':
-    db = SQLiteActions('ololo.db')
+    db = SQLiteActions('ololo1.db')
     host = '127.0.0.1'
     port = 8080
     app.run(host=host, port=port, debug=True)
