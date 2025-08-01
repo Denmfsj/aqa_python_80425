@@ -1,0 +1,11 @@
+[default]
+sause_demo_url = "https://www.saucedemo.com/"
+user_name = "standard_user"
+count_of_product_cards = 6
+
+[dev]
+count_of_product_cards = 4
+
+
+[prod]
+count_of_product_cards = 8

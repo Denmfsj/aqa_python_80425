@@ -14,12 +14,18 @@ class BasePage:
 
     def open_page(self):
         self._driver.get(self.url)
+        return self
 
 
-    def _input(self, locator, timeout=2, message=None):
+    def _visible_element(self, locator, timeout=2, message=None):
         el = WebDriverWait(self._driver, timeout).until(
             EC.visibility_of_element_located(locator), message=message)
         return el
+
+    def _visible_elements(self, locator, timeout=2, message=None):
+        els = WebDriverWait(self._driver, timeout).until(
+            EC.visibility_of_all_elements_located(locator), message=message)
+        return els
 
 
     def _button_clickable(self, locator, timeout=2, message=None):

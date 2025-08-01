@@ -11,13 +11,6 @@ def driver() -> webdriver:
     yield driver
     driver.quit()
 
-
-@pytest.fixture(scope='session')
-def user_creds():
-    user_name = "standard_user"
-    password = "secret_sauce"
-    yield user_name, password
-
 @pytest.fixture
 def login_page(driver):
     return LoginPage(driver=driver)
