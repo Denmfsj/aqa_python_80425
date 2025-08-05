@@ -3,6 +3,7 @@ from typing import List
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait, Select
 
+from core.UI.forms.registration_form import RForm
 from core.UI.locators.products_page_locators import ProductsPageLocators
 from core.UI.pages.base_page import BasePage
 from utils.settings import d_settings
@@ -12,6 +13,12 @@ class ProductsPage(BasePage):
 
     def __init__(self, driver, url='https://www.saucedemo.com/inventory.html'):
         super().__init__(driver, url)
+        self.reg_form = RForm(self._driver)
+
+
+    def gill_name_at_reg_form(self, user_name):
+
+        self.reg_form.set_user_name(user_name)
 
 
     def check_page_is_loaded(self):

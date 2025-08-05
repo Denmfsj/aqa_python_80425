@@ -3,10 +3,10 @@ import os
 import pytest
 
 
-@pytest.mark.usefixtures(f"get_user_on_{os.environ['current_env']}")
+# @pytest.mark.usefixtures(f"get_user_on_{os.environ['current_env']}")
 def test_update_user(session_user, get_user):
 
-    ...
+    pass
 
 
 @pytest.fixture

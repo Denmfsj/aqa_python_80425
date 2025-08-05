@@ -5,17 +5,10 @@ from core.UI.locators.login_page_locators import LoginPageLocators
 from core.UI.utils.custom_wait import WaitNElements
 
 
-class BasePage:
+class BaseElements:
 
-    def __init__(self, driver, url):
-        self.url = url
+    def __init__(self, driver):
         self._driver = driver
-
-
-    def open_page(self):
-        self._driver.get(self.url)
-        return self
-
 
     def _visible_element(self, locator, timeout=2, message=None):
         el = WebDriverWait(self._driver, timeout).until(
@@ -39,3 +32,15 @@ class BasePage:
                message=message)
 
         return el
+
+
+class BasePage(BaseElements):
+
+    def __init__(self, driver, url):
+        self.url = url
+        super().__init__(driver=driver)
+
+
+    def open_page(self):
+        self._driver.get(self.url)
+        return self

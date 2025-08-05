@@ -49,6 +49,12 @@ def test_triangle_888(prepared_users):
 @pytest.mark.users_microservice
 def test_triangle_000_negative():
 
+    if not os.path.exists('res_folder'):
+        os.mkdir('res_folder')
+
+    with open('res_folder/test_data.txt', 'w') as f:
+        f.write('text from test')
+
     expected = 0
     actual = triangle_area(0, 0, 0)
     assert actual == expected, f'triangle area: expected: {expected} but actual is {actual}'
