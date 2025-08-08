@@ -3,6 +3,8 @@
 test.py
 creds.json
 .secrets.toml
+allure-results_1
+allure-report
 
 __pycache__/
 *.py[cod]

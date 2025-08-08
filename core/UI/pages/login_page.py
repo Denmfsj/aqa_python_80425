@@ -2,6 +2,7 @@ from core.UI.locators.login_page_locators import LoginPageLocators
 from core.UI.pages.base_page import BasePage
 from core.UI.pages.products_page import ProductsPage
 from utils.settings import d_settings
+import allure
 
 
 class LoginPage(BasePage):
@@ -26,7 +27,7 @@ class LoginPage(BasePage):
         password_input.send_keys(user_pwd)
         return self
 
-
+    @allure.step("Clicking login button")
     def click_login_button(self):
         self._button_clickable(locator=LoginPageLocators.login_button_loc,
                                message='Cant find/click login button on Login Page').click()
@@ -34,8 +35,12 @@ class LoginPage(BasePage):
 
 
     # positive case
+    @allure.step('Do Login, username = {user_name}')
     def login(self, user_name, user_password) -> ProductsPage:
-        self.set_user_name(user_name).set_user_pwd(user_password)
+
+        with allure.step('Filling user name and password fields'):
+            self.set_user_name(user_name).set_user_pwd(user_password)
+
         self.click_login_button()
 
         product_page_instance = ProductsPage(self._driver)

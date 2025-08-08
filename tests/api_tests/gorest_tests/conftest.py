@@ -1,10 +1,17 @@
 # conftest.py
 
 import time
+import allure
 
 import pytest
 
 from core.api_services.gorest.gorest_endpoints import GorestEndpoint
+
+
+@pytest.mark.gorest
+@allure.epic("Gorest")
+class GorestBase:
+    pass
 
 
 @pytest.fixture(scope='module')  # фікстура буде створювати юзера для кожного теста який її використовує

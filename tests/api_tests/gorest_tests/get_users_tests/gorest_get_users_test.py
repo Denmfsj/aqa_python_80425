@@ -1,12 +1,13 @@
 # https://gorest.co.in/public/v2/users?id=7966026  Jagadish
 import pytest
 import random
+import allure
 
 from core.api_services.gorest.gorest_endpoints import GorestEndpoint
 
 gorest = GorestEndpoint()
 
-
+@allure.story('Gorest feature')
 def gorest_3_users():
     response = gorest.get_users().json()
     user_list = []

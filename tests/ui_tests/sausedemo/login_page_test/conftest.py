@@ -1,8 +1,14 @@
 import pytest
+import allure
 from selenium import webdriver
 
 from core.UI.pages.login_page import LoginPage
 from core.UI.pages.products_page import ProductsPage
+from tests.ui_tests.sausedemo.conftest import SauseDemoBase
+
+@allure.feature('Login actions')
+class TestLogin(SauseDemoBase):
+    pass
 
 
 @pytest.fixture

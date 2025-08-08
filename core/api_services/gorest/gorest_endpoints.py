@@ -1,9 +1,17 @@
 import requests
 
 from curlify import to_curl
+import allure
 
 from core.api_services.gorest.schemas.user_schema import UserSchema
 
+# class RequestHandler:
+#
+#     def execute_request(self):
+#
+#         response = request.get(...)
+#
+#         curl_row = to_curl(response.request)
 
 class GorestEndpoint:
 
@@ -17,7 +25,12 @@ class GorestEndpoint:
 
         response = requests.get(url=f'{self.get_path()}/users', params=params)
 
-        print(to_curl(response.request))
+
+        curl = to_curl(response.request)
+        # if curl is not None:
+        #     print('curl is ', curl)
+        #     allure.attach({'curl': curl}, name='curl', attachment_type=allure.attachment_type.JSON)
+
         print(f'Status code is {response.status_code}')
 
 
@@ -36,7 +49,9 @@ class GorestEndpoint:
         print(f'Sending request to {url}')
 
         response =  requests.get(url=url)
-        print(to_curl(response.request))
+
+        curl = to_curl(response.request)
+        allure.attach(curl, name='curl', attachment_type=allure.attachment_type.TEXT)
         print(f'Status code is {response.status_code}')
 
         assert response.status_code == expected_status_code, \
@@ -54,7 +69,9 @@ class GorestEndpoint:
             }
 
         response = requests.post(url=f'{self.get_path()}/users', json=user_data, headers=header)
-        print(to_curl(response.request))
+
+        curl = to_curl(response.request)
+        allure.attach(curl, name='curl', attachment_type=allure.attachment_type.TEXT)
         print(f'Status code is {response.status_code}')
 
         assert response.status_code == expected_status_code, \
@@ -70,7 +87,9 @@ class GorestEndpoint:
             }
 
         response = requests.delete(url=f'{self.get_path()}/users/{user_id}', headers=header)
-        print(to_curl(response.request))
+
+        curl = to_curl(response.request)
+        allure.attach(curl, name='curl', attachment_type=allure.attachment_type.TEXT)
         print(f'Status code is {response.status_code}')
 
         assert response.status_code == expected_status_code, \

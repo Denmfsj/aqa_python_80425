@@ -12,7 +12,7 @@ services:
 
   app:
     build:
-      context: .
+      context: ..
       dockerfile: db_test.docker
 
     environment:

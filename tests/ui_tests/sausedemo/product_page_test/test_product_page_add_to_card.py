@@ -1,14 +1,13 @@
 import random
-import time
 
-import pytest
+import allure
 
 from core.UI.enum.product_add_to_card_tests import ProductAddCardText
-from core.UI.enum.product_sort_enum import ProductSortEnum
-from core.UI.locators.products_page_locators import ProductsPageLocators
-from core.UI.pages.products_page import ProductsPage
 
 
+@allure.epic('Sause demo site')
+@allure.feature('Product actions')
+@allure.story('basket actions')
 def test_product_page_add_and_remove_product_from_card(products_page, driver):
 
 
