@@ -1,4 +1,6 @@
 # from lessons.lesson_11.config_file_logger import my_logger
+from dynaconf import settings
+
 from utils.test_functions import convert_to_24_hour
 import pytest
 import logging
@@ -32,6 +34,12 @@ def test_time_converter(expected_result, input_param):
     log_results(expected_result, actual)
 
     assert expected_result == actual
+
+
+@pytest.mark.time_converter
+def test_check_env_vars():
+    assert settings.secret_phrase == 'prod_phrase'
+
 
 def log_results(exp, act):
     if exp != act:

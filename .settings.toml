@@ -3,9 +3,13 @@ sause_demo_url = "https://www.saucedemo.com/"
 user_name = "standard_user"
 count_of_product_cards = 6
 
+secret_phrase = 'default_phrase'
+
 [dev]
 count_of_product_cards = 4
+secret_phrase = 'dev_phrase'
 
 
 [prod]
 count_of_product_cards = 8
+secret_phrase = 'prod_phrase'
