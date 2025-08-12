@@ -38,6 +38,10 @@ def test_time_converter(expected_result, input_param):
 def test_check_env_vars():
     assert d_settings.secret_phrase == 'prod_phrase'
 
+@pytest.mark.time_converter
+def test_check_pwd():
+    assert d_settings.user_pwd == 'secret_sauce'
+
 
 def log_results(exp, act):
     if exp != act:
