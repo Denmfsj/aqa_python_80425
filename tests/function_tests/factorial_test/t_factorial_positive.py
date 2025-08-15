@@ -3,6 +3,8 @@ import unittest
 import sys
 import pathlib
 
+import pytest
+
 path_to_base_folder = str(pathlib.Path(__file__).parent.parent.parent.parent)
 sys.path.insert(0, path_to_base_folder)
 
@@ -50,6 +52,29 @@ class FactorialPositiveTest(unittest.TestCase):
 
         self.assertEqual(6, self.user_id)
         self.assertEqual(expected_result, actual_result)
+
+
+@pytest.mark.parametrize(
+    'input_data, expected',
+    [
+        (0, 1),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+        (5, 120),
+    ]
+)
+def test_factorial_with_5(input_data, expected):
+
+    actual_result = factorial(input_data)
+    assert actual_result == expected
 
 
 

@@ -6,8 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from constants import UI_SCREENSHOTS_FOLDER
-from core.UI.pages.login_page import LoginPage
-from core.UI.pages.products_page import ProductsPage
+from core import *
 from utils.settings import d_settings
 
 
@@ -22,7 +21,8 @@ def user_creds():
     password = d_settings.user_pwd
     yield user_name, password
 
-@pytest.fixture(scope='package')
+
+@pytest.fixture
 def driver() -> webdriver:
 
     options = Options()
@@ -37,9 +37,33 @@ def driver() -> webdriver:
     driver.quit()
 
 @pytest.fixture(scope='package')
-def products_page(driver, user_creds) -> ProductsPage:
+def driver_package() -> webdriver:
+
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    options.browser_version = "114"
+
+    driver = webdriver.Chrome(options=options)
+    yield driver
+    driver.quit()
+
+@pytest.fixture(scope='module')
+def login_page_negative_tests(driver_package):
+
+    return LoginPage()
+
+@pytest.fixture
+def product_page_package(driver_fn):
+    return UI_LoginPage(driver=driver_fn).open_page().login(user_name=name, user_password=pwd)
+
+
+@pytest.fixture(scope='package')
+def products_page(driver, user_creds) -> UI_ProductPage:
     name, pwd = user_creds
-    return LoginPage(driver=driver).open_page().login(user_name=name, user_password=pwd)
+    return UI_LoginPage(driver=driver).open_page().login(user_name=name, user_password=pwd)
 
 
 @pytest.fixture(autouse=True)
