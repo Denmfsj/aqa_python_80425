@@ -28,6 +28,9 @@
 - які ви знаете magic method(__init__, __new__, __iter__, __enter__, __exit__, ...)
 # https://refactoring.guru/uk/design-patterns
 # https://www.codewars.com/dashboard
+# https://pypi.org/project/pytest-xdist/
+# pytest . -m gorest -n 4
+
 ---------------------
 
 - Які методи HTTP ви знаєте?
