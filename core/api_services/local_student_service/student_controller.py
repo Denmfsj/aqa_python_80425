@@ -1,5 +1,7 @@
 import requests
 
+from utils.settings import d_settings
+
 
 class StudentController:
 
@@ -7,7 +9,7 @@ class StudentController:
 
         self.base_url = 'http://127.0.0.1:8080/'
         self.token = None
-        self.student_part = f'{self.base_url}students/'
+        self.student_part = f'{self.base_url}students'
 
         self._get_token_auth()
 
@@ -18,7 +20,7 @@ class StudentController:
 
 
     def get_student(self, student_id: int):
-        return requests.get(url=f'{self.student_part}{student_id}')
+        return requests.get(url=f'{self.student_part}/{student_id}')
 
 
     def create_student(self, student_data: dict):
@@ -30,5 +32,9 @@ class StudentController:
 
     def _get_token_auth(self):
         if self.token is None:
-            self.token = requests.get(url=f'{self.base_url}auth/').text
+            self.token = requests.post(
+                url=f'{self.base_url}auth/',
+                json={'name': d_settings.flask_user_name,
+                      'password': d_settings.flask_user_pwd}
+            ).text
 

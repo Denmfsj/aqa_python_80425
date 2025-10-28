@@ -5,6 +5,9 @@ count_of_product_cards = 6
 
 secret_phrase = 'default_phrase'
 
+flask_user_name= 'test'
+flask_user_pwd= 'test'
+
 [dev]
 count_of_product_cards = 4
 secret_phrase = 'dev_phrase'
